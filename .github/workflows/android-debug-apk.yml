@@ -26,12 +26,12 @@ jobs:
           npm ci
           npm ls @react-native/gradle-plugin || echo "NOTE: plugin will be added by RN version if applicable"
 
-      - name: Enforce Gradle 8.6 wrappers
+      - name: Enforce Gradle 8.7 wrappers
         run: |
-          sed -i 's#https://services.gradle.org/distributions/gradle-.*-bin.zip#https://services.gradle.org/distributions/gradle-8.6-bin.zip#g' AuthorAppMobile/android/gradle/wrapper/gradle-wrapper.properties
+          sed -i 's#https://services.gradle.org/distributions/gradle-.*-bin.zip#https://services.gradle.org/distributions/gradle-8.7-bin.zip#g' AuthorAppMobile/android/gradle/wrapper/gradle-wrapper.properties
           WRAPPER_PROP=AuthorAppMobile/node_modules/@react-native/gradle-plugin/gradle/wrapper/gradle-wrapper.properties
           if [ -f "$WRAPPER_PROP" ]; then
-            sed -i 's#https://services.gradle.org/distributions/gradle-.*-bin.zip#https://services.gradle.org/distributions/gradle-8.6-bin.zip#g' "$WRAPPER_PROP"
+            sed -i 's#https://services.gradle.org/distributions/gradle-.*-bin.zip#https://services.gradle.org/distributions/gradle-8.7-bin.zip#g' "$WRAPPER_PROP"
           fi
 
       - name: Set up JDK 17
