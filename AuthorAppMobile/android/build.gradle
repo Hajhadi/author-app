@@ -1,20 +1,18 @@
 buildscript {
     ext {
-        buildToolsVersion = "36.0.0"
+        buildToolsVersion = findProperty('android.buildToolsVersion') ?: "34.0.0"
         minSdkVersion = 24
-        compileSdkVersion = 36
-        targetSdkVersion = 36
-        ndkVersion = "27.1.12297006"
-        kotlinVersion = "1.9.10"
+        compileSdkVersion = findProperty('android.compileSdkVersion')?.toInteger() ?: 34
+        targetSdkVersion = findProperty('android.targetSdkVersion')?.toInteger() ?: 34
+        ndkVersion = findProperty('android.ndkVersion') ?: "26.1.10909125"
+        kotlinVersion = findProperty('android.kotlinVersion') ?: "1.9.24"
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        // Set a specific Android Gradle Plugin version compatible with Gradle 9.0.0
-        classpath("com.android.tools.build:gradle:9.0.0")
-        // Use the Kotlin Gradle plugin version defined above
+        classpath("com.android.tools.build:gradle:8.6.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         // Note: react-native-gradle-plugin is included via includeBuild in settings.gradle
         // so we must not add a duplicate classpath here to avoid plugin application issues
