@@ -1,4 +1,4 @@
-name: Android Debug APK
+name: Android Debug APK (React Native)
 
 on:
   workflow_dispatch:
@@ -8,14 +8,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: |
+            AuthorAppMobile/package-lock.json
+
+      - name: Install JS deps (npm ci)
+        working-directory: AuthorAppMobile
+        run: |
+          npm ci
+          npm ls @react-native/gradle-plugin || echo "NOTE: plugin will be added by RN version if applicable"
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Install Android cmdline-tools
         run: |
@@ -32,6 +47,7 @@ jobs:
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "build-tools;34.0.0" "platforms;android-34"
 
+      # بیلد اندروید باید از فولدر android داخل پروژه RN اجرا شود
       - name: Gradle assembleDebug
         working-directory: AuthorAppMobile/android
         run: |
@@ -41,4 +57,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: "AuthorAppMobile/android/app/build/outputs/apk/debug/*.apk"
+          path: |
+            AuthorAppMobile/android/app/build/outputs/apk/debug/*.apk
